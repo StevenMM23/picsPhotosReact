@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from "axios";
+import { useEffect, useState } from "react";
 
+import "./App.css";
+import searchImages from "./api";
+import SearchBar from "./components/SearchBar";
+import ImageList from "./components/ImageList";
 function App() {
+  const [images, setImages] = useState([]);
+  const handleSubmit = async (term) => {
+    const response = await searchImages(term);
+    setImages(() => { 
+      return response
+    });
+    console.log(images)
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App w-10">
+      <SearchBar onSubmit={handleSubmit} />
+      <ImageList images={images} />
     </div>
   );
 }
